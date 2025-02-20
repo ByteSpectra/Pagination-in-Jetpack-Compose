@@ -89,10 +89,11 @@ fun MainContent(
     }
 
     LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = modifier) {
+
         // Prepend Section
         if (images.loadState.prepend is LoadState.Loading) {
             item {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
@@ -132,11 +133,12 @@ fun MainContent(
         // Append Section
         if (images.loadState.append is LoadState.Loading) {
             item {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
         }
+
         if (images.loadState.append is LoadState.Error) {
             item {
                 Box(
