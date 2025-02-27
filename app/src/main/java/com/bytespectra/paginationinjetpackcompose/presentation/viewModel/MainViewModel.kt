@@ -3,6 +3,7 @@ package com.bytespectra.paginationinjetpackcompose.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.bytespectra.paginationinjetpackcompose.domain.useCase.GetImagesFromRemoteMediator
 import com.bytespectra.paginationinjetpackcompose.domain.useCase.GetImagesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val useCase: GetImagesUseCase
+    private val useCase: GetImagesUseCase,
+    private val remoteMediator: GetImagesFromRemoteMediator
 ): ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -25,11 +27,22 @@ class MainViewModel @Inject constructor(
         _query.update { q }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    // Simple API Pagination
+
+    /*@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val images = _query.filter { it.isNotBlank() }
         .debounce(1000)
         .flatMapLatest { query ->
             useCase.invoke(query).flow
+        }.cachedIn(viewModelScope)*/
+
+    // Remote Mediator Single Truth
+
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    val images = _query.filter { it.isNotBlank() }
+        .debounce(1000)
+        .flatMapLatest { query ->
+            remoteMediator.invoke(query)
         }.cachedIn(viewModelScope)
 
 }

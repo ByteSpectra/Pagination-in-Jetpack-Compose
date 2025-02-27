@@ -1,4 +1,4 @@
-package com.bytespectra.paginationinjetpackcompose.presentation
+package com.bytespectra.paginationinjetpackcompose
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

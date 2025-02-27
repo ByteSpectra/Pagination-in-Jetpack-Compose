@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger)
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -65,9 +65,13 @@ dependencies {
     implementation(libs.paging.compose)
 
     implementation(libs.dagger.hilt)
+    ksp(libs.dagger.ksp)
     implementation(libs.hilt.compose.navigation)
-    kapt(libs.dagger.kapt)
 
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+
+    implementation(libs.room.database)
+    ksp(libs.room.compiler)
+    implementation(libs.room.paging)
 }
